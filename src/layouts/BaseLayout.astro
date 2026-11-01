@@ -48,9 +48,9 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
   </head>
   <body class="min-h-screen font-sans antialiased">
     <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-[rgb(var(--bg)/0.8)] bg-[rgb(var(--bg))] border-b border-[rgb(var(--border))]">
-      <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
-        <a href={`${base}/#inicio`} class="text-sm font-medium">Denis Omar Cuyo Ttito</a>
-        <div class="flex items-center gap-4 text-sm">
+      <nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-2 sm:px-6 sm:py-3">
+        <a href={`${base}/#inicio`} class="text-sm font-medium whitespace-nowrap">Denis Omar Cuyo Ttito</a>
+        <div class="flex flex-wrap items-center gap-2 text-xs sm:gap-4 sm:text-sm">
           <a href={`${base}/#proyectos`} class="hover:opacity-80">Proyectos</a>
           <a href={`${base}/#experiencia`} class="hover:opacity-80">Experiencia</a>
           <a href={`${base}/#habilidades`} class="hover:opacity-80">Habilidades</a>

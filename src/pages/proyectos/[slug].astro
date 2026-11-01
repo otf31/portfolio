@@ -25,12 +25,12 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
         <p class="max-w-3xl text-[rgb(var(--muted))]">{project.summary}</p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3 text-sm">
+      <div class="flex flex-wrap items-center gap-2 text-sm">
         {project.repo && !project.private && (
-          <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-3 py-1.5 hover:opacity-80">Ver código en GitHub</a>
+          <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80 sm:px-3 sm:py-1.5">Ver código en GitHub</a>
         )}
         {project.private && project.note && (
-          <span class="rounded-md border border-[rgb(var(--border))] px-3 py-1.5 text-[rgb(var(--muted))]">{project.note}</span>
+          <span class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 text-[rgb(var(--muted))] sm:px-3 sm:py-1.5">{project.note}</span>
         )}
       </div>
     </div>

@@ -10,15 +10,15 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
   <div class="mt-6 grid gap-4">
     {projects.map((project) => (
       <article class="rounded-lg border border-[rgb(var(--border))] p-4 sm:p-5">
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <div class="flex items-center gap-2">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
               <h3 class="text-lg font-medium">{project.name}</h3>
               {project.aiHeavy && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">IA-assisted</span>}
             </div>
             <p class="mt-1 text-sm text-[rgb(var(--muted))]">{project.summary}</p>
           </div>
-          <div class="flex items-center gap-2 text-sm">
+          <div class="flex flex-wrap items-center gap-2 text-sm">
             {project.repo && !project.private && (
               <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80">Código</a>
             )}
