@@ -129,7 +129,7 @@ async def publish_to_group(page, text: str, images: list[str]):
   {
     name: "VideoGen",
     slug: "videogen",
-    summary: "Generador automatizado de videos (tipo trivia/TikTok) con síntesis de voz con IA y pipeline de renderizado.",
+    summary: "Generador automatizado de videos con síntesis de voz con IA y pipeline de renderizado.",
     overview:
       "VideoGen es un generador automatizado de videos cortos. El proyecto fue mayoritariamente generado y estructurado con asistencia de IA (LLM) para acelerar el diseño del pipeline, la integración de componentes y la iteración rápida. Combina TTS con modelo ONNX (Kokoro), gestión de assets, audio y composición de video para producir contenido listo para redes verticales.",
     stack: ["Python", "Kokoro ONNX", "ONNX Runtime", "NumPy", "Procesamiento de video", "FFmpeg", "Assets multimedia"],

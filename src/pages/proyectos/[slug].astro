@@ -21,7 +21,6 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
         <div class="flex flex-wrap items-center gap-2">
           <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">{project.name}</h1>
           {project.aiHeavy && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">Fuertemente asistido por IA</span>}
-          {project.private && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">Privado / Local</span>}
         </div>
         <p class="max-w-3xl text-[rgb(var(--muted))]">{project.summary}</p>
       </div>
