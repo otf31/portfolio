@@ -59,6 +59,28 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
       </ul>
     </section>
 
+    {project.architecture && (
+      <section class="mt-10">
+        <h2 class="text-lg font-medium">Arquitectura</h2>
+        <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
+          {project.architecture.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {project.workflow && (
+      <section class="mt-10">
+        <h2 class="text-lg font-medium">Flujo de trabajo</h2>
+        <ol class="mt-3 list-decimal space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
+          {project.workflow.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ol>
+      </section>
+    )}
+
     {project.aiHeavy && project.aiUsage && (
       <section class="mt-10">
         <h2 class="text-lg font-medium">Uso de IA en el desarrollo</h2>
@@ -101,6 +123,33 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
             <li>{item}</li>
           ))}
         </ul>
+      </section>
+    )}
+
+    {project.codeSnippets && project.codeSnippets.length > 0 && (
+      <section class="mt-10">
+        <h2 class="text-lg font-medium">Ejemplos de código</h2>
+        <p class="mt-2 max-w-3xl text-sm text-[rgb(var(--muted))]">
+          Snippets ilustrativos que reflejan la lógica y estructura implementada en el proyecto.
+        </p>
+        <div class="mt-6 flex flex-col gap-6">
+          {project.codeSnippets.map((snippet) => (
+            <article class="rounded-lg border border-[rgb(var(--border))] overflow-hidden">
+              <div class="flex flex-col gap-1 border-b border-[rgb(var(--border))] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h3 class="text-sm font-medium">{snippet.title}</h3>
+                  {snippet.description && (
+                    <p class="text-xs text-[rgb(var(--muted))]">{snippet.description}</p>
+                  )}
+                </div>
+                <span class="text-xs text-[rgb(var(--muted))] uppercase">{snippet.language}</span>
+              </div>
+              <div class="overflow-x-auto bg-[rgb(var(--bg))]">
+                <pre class="p-4 text-xs leading-relaxed"><code>{snippet.code}</code></pre>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
     )}
   </article>
