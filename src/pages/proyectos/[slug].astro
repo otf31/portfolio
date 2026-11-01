@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { projects } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+---
+
+<BaseLayout title={`${project.name} — Proyecto | Denis Omar Cuyo Ttito`} description={project.summary}>
+  <article class="pt-10 sm:pt-14">
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
+        <a href={`${base}/#proyectos`} class="text-sm text-[rgb(var(--muted))] hover:opacity-80">← Volver a proyectos</a>
+        <div class="flex flex-wrap items-center gap-2">
+          <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">{project.name}</h1>
+          {project.aiHeavy && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">Fuertemente asistido por IA</span>}
+          {project.private && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">Privado / Local</span>}
+        </div>
+        <p class="max-w-3xl text-[rgb(var(--muted))]">{project.summary}</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 text-sm">
+        {project.repo && !project.private && (
+          <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-3 py-1.5 hover:opacity-80">Ver código en GitHub</a>
+        )}
+        {project.private && project.note && (
+          <span class="rounded-md border border-[rgb(var(--border))] px-3 py-1.5 text-[rgb(var(--muted))]">{project.note}</span>
+        )}
+      </div>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="text-lg font-medium">Descripción general</h2>
+      <p class="mt-2 max-w-3xl text-sm leading-relaxed text-[rgb(var(--fg))]">{project.overview}</p>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-lg font-medium">Tecnologías utilizadas</h2>
+      <div class="mt-3 flex flex-wrap gap-2">
+        {project.stack.map((tech) => (
+          <span class="rounded-full border border-[rgb(var(--border))] px-2.5 py-0.5 text-xs text-[rgb(var(--muted))]">{tech}</span>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-lg font-medium">Características principales</h2>
+      <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
+        {project.features.map((feature) => (
+          <li>{feature}</li>
+        ))}
+      </ul>
+    </section>
+
+    {project.aiHeavy && project.aiUsage && (
+      <section class="mt-10">
+        <h2 class="text-lg font-medium">Uso de IA en el desarrollo</h2>
+        <p class="mt-2 max-w-3xl text-sm text-[rgb(var(--muted))]">
+          Este proyecto fue generado y estructurado con un uso intensivo de IA para acelerar el diseño, la integración y la iteración.
+        </p>
+        <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
+          {project.aiUsage.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {project.highlights && (
+      <section class="mt-10">
+        <h2 class="text-lg font-medium">Aspectos destacados</h2>
+        <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
+          {project.highlights.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="mt-10">
+      <h2 class="text-lg font-medium">Lo que aprendí</h2>
+      <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
+        {project.learned.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </section>
+
+    {project.codeNotes && (
+      <section class="mt-10">
+        <h2 class="text-lg font-medium">Notas técnicas / implementación</h2>
+        <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
+          {project.codeNotes.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</BaseLayout>

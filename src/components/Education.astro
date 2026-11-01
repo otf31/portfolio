@@ -1,0 +1,26 @@
+---
+import { education, languages } from "../data/experience";
+---
+
+<section id="educacion" class="mt-16">
+  <h2 class="text-xl font-semibold tracking-tight">Educación</h2>
+  <article class="mt-6 rounded-lg border border-[rgb(var(--border))] p-4">
+    <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+      <div>
+        <h3 class="text-base font-medium">{education.title}</h3>
+        <p class="text-sm text-[rgb(var(--muted))]">{education.institution} · {education.location}</p>
+      </div>
+      <p class="text-sm text-[rgb(var(--muted))]">{education.period}</p>
+    </div>
+    <p class="mt-2 text-sm text-[rgb(var(--fg))]">{education.notes}</p>
+  </article>
+
+  <div class="mt-6">
+    <h3 class="text-base font-medium">Idiomas</h3>
+    <div class="mt-2 flex flex-wrap gap-2 text-sm">
+      {languages.map((lang) => (
+        <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-[rgb(var(--muted))]">{lang.name} · {lang.level}</span>
+      ))}
+    </div>
+  </div>
+</section>
