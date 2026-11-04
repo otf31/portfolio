@@ -2,15 +2,15 @@
 import { skillGroups } from "../data/skills";
 ---
 
-<section id="habilidades" class="mt-16">
+<section id="habilidades" class="mt-16 reveal animate-fade-in-up">
   <h2 class="text-xl font-semibold tracking-tight">Habilidades y conocimientos</h2>
   <div class="mt-6 grid gap-4 sm:grid-cols-2">
-    {skillGroups.map((group) => (
-      <article class="rounded-lg border border-[rgb(var(--border))] p-4">
-        <h3 class="text-sm font-medium">{group.title}</h3>
+    {skillGroups.map((group, groupIndex) => (
+      <article class="rounded-lg border border-[rgb(var(--border))] p-4 card-hover reveal animate-fade-in-up" style={{ animationDelay: `${(groupIndex + 1) * 100}ms` }}>
+        <h3 class="text-sm font-medium gradient-text">{group.title}</h3>
         <div class="mt-2 flex flex-wrap gap-2">
-          {group.items.map((item) => (
-            <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">{item}</span>
+          {group.items.map((item, itemIndex) => (
+            <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))] hover:border-[rgb(var(--accent))] hover:text-[rgb(var(--accent))] hover:bg-[rgb(var(--accent) / 0.05)] transition-all duration-300 reveal animate-scale-in" style={{ animationDelay: `${(groupIndex * 50) + (itemIndex * 30)}ms` }}>{item}</span>
           ))}
         </div>
       </article>

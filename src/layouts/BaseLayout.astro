@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import scrollAnimations from "../scripts/scroll-animations.js";
 
 interface Props {
   title?: string;
@@ -70,6 +71,10 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
         <p>© {new Date().getFullYear()} Denis Omar Cuyo Ttito</p>
       </div>
     </footer>
+    <script type="module">
+      import { initScrollAnimations } from '../scripts/scroll-animations.js';
+      initScrollAnimations();
+    </script>
     <script is:inline>
       const btn = document.getElementById('theme-toggle');
       btn?.addEventListener('click', () => {

@@ -2,12 +2,12 @@
 import { education, languages } from "../data/experience";
 ---
 
-<section id="educacion" class="mt-16">
+<section id="educacion" class="mt-16 reveal animate-fade-in-up">
   <h2 class="text-xl font-semibold tracking-tight">Educación</h2>
-  <article class="mt-6 rounded-lg border border-[rgb(var(--border))] p-4">
+  <article class="mt-6 rounded-lg border border-[rgb(var(--border))] p-4 card-hover reveal animate-fade-in-up delay-100">
     <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
       <div>
-        <h3 class="text-base font-medium">{education.title}</h3>
+        <h3 class="text-base font-medium gradient-text">{education.title}</h3>
         <p class="text-sm text-[rgb(var(--muted))]">{education.institution} · {education.location}</p>
       </div>
       <p class="text-sm text-[rgb(var(--muted))]">{education.period}</p>
@@ -15,11 +15,11 @@ import { education, languages } from "../data/experience";
     <p class="mt-2 text-sm text-[rgb(var(--fg))]">{education.notes}</p>
   </article>
 
-  <div class="mt-6">
+  <div class="mt-6 reveal animate-fade-in-up delay-200">
     <h3 class="text-base font-medium">Idiomas</h3>
     <div class="mt-2 flex flex-wrap gap-2 text-sm">
-      {languages.map((lang) => (
-        <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-[rgb(var(--muted))]">{lang.name} · {lang.level}</span>
+      {languages.map((lang, index) => (
+        <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-[rgb(var(--muted))] hover:border-[rgb(var(--accent))] hover:text-[rgb(var(--accent))] hover:bg-[rgb(var(--accent) / 0.05)] transition-all duration-300 reveal animate-scale-in" style={{ animationDelay: `${index * 100}ms` }}>{lang.name} · {lang.level}</span>
       ))}
     </div>
   </div>

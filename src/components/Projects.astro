@@ -3,31 +3,31 @@ import { projects } from "../data/projects";
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
 ---
 
-<section id="proyectos" class="mt-16">
+<section id="proyectos" class="mt-16 reveal animate-fade-in-up">
   <div class="flex items-center justify-between">
     <h2 class="text-xl font-semibold tracking-tight">Proyectos</h2>
   </div>
   <div class="mt-6 grid gap-4">
-    {projects.map((project) => (
-      <article class="rounded-lg border border-[rgb(var(--border))] p-4 sm:p-5">
+    {projects.map((project, index) => (
+      <article class="rounded-lg border border-[rgb(var(--border))] p-4 sm:p-5 card-hover reveal animate-fade-in-up" style={{ animationDelay: `${(index + 1) * 100}ms` }}>
         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div class="min-w-0">
             <div class="flex flex-wrap items-center gap-2">
               <h3 class="text-lg font-medium">{project.name}</h3>
-              {project.aiHeavy && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">IA-assisted</span>}
+              {project.aiHeavy && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))] animate-pulse-glow">IA-assisted</span>}
             </div>
             <p class="mt-1 text-sm text-[rgb(var(--muted))]">{project.summary}</p>
           </div>
           <div class="flex flex-wrap items-center gap-2 text-sm">
             {project.repo && !project.private && (
-              <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80">Código</a>
+              <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80 hover:border-[rgb(var(--accent))] transition-all duration-300">Código</a>
             )}
-            <a href={`${base}/proyectos/${project.slug}/`} class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80">Ver detalles</a>
+            <a href={`${base}/proyectos/${project.slug}/`} class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80 hover:border-[rgb(var(--accent))] hover:bg-[rgb(var(--accent) / 0.05)] transition-all duration-300">Ver detalles</a>
           </div>
         </div>
         <div class="mt-3 flex flex-wrap gap-2">
           {project.stack.slice(0, 6).map((tech) => (
-            <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">{tech}</span>
+            <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))] hover:border-[rgb(var(--accent))] hover:text-[rgb(var(--accent))] transition-all duration-300">{tech}</span>
           ))}
           {project.stack.length > 6 && (
             <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">+{project.stack.length - 6}</span>
