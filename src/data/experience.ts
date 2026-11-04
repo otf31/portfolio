@@ -33,7 +33,7 @@ export const experience: ExperienceItem[] = [
     role: "Jefe de Sección Censal",
     company: "Instituto Nacional de Estadística e Informática (INEI)",
     period: "2025",
-    location: "Sicuani, Cusco, Perú",
+    location: "Cusco, Perú",
     highlights: [
       "Capacité y orienté al personal seleccionado para el desarrollo de las actividades censales.",
       "Lideré y supervisé un equipo de cuatro personas, garantizando el cumplimiento de procedimientos y objetivos.",
