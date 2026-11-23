@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { projects } from "../../data/projects";
 import CodeBlock from "../../components/CodeBlock.astro";
+import { getProjects, ui } from '../../i18n/content';
 
 export function getStaticPaths() {
-  return projects.map((project) => ({
+  return getProjects('es').map((project) => ({
     params: { slug: project.slug },
     props: { project }
   }));
@@ -12,23 +12,24 @@ export function getStaticPaths() {
 
 const { project } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+const text = ui.es;
 ---
 
-<BaseLayout title={`${project.name} — Proyecto | Denis Omar Cuyo Ttito`} description={project.summary}>
+<BaseLayout lang="es" localeSwitchHref={`${base}/en/projects/${project.slug}/`} title={`${project.name} — Proyecto | Denis Omar`} description={project.summary}>
   <article class="pt-10 sm:pt-14">
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
-        <a href={`${base}/#proyectos`} class="text-sm text-[rgb(var(--muted))] hover:opacity-80">← Volver a proyectos</a>
+        <a href={`${base}/#proyectos`} class="text-sm text-[rgb(var(--muted))] hover:opacity-80">← {text.detail.back}</a>
         <div class="flex flex-wrap items-center gap-2">
           <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">{project.name}</h1>
-          {project.aiHeavy && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">Fuertemente asistido por IA</span>}
+          {project.aiHeavy && <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))]">{text.detail.ai}</span>}
         </div>
         <p class="max-w-3xl text-[rgb(var(--muted))]">{project.summary}</p>
       </div>
 
       <div class="flex flex-wrap items-center gap-2 text-sm">
         {project.repo && !project.private && (
-          <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80 sm:px-3 sm:py-1.5">Ver código en GitHub</a>
+          <a href={project.repo} target="_blank" rel="noopener noreferrer" class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 hover:opacity-80 sm:px-3 sm:py-1.5">{text.detail.github}</a>
         )}
         {project.private && project.note && (
           <span class="rounded-md border border-[rgb(var(--border))] px-2.5 py-1 text-[rgb(var(--muted))] sm:px-3 sm:py-1.5">{project.note}</span>
@@ -37,12 +38,12 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
     </div>
 
     <section class="mt-10">
-      <h2 class="text-lg font-medium">Descripción general</h2>
+      <h2 class="text-lg font-medium">{text.detail.overview}</h2>
       <p class="mt-2 max-w-3xl text-sm leading-relaxed text-[rgb(var(--fg))]">{project.overview}</p>
     </section>
 
     <section class="mt-10">
-      <h2 class="text-lg font-medium">Tecnologías utilizadas</h2>
+      <h2 class="text-lg font-medium">{text.detail.stack}</h2>
       <div class="mt-3 flex flex-wrap gap-2">
         {project.stack.map((tech) => (
           <span class="rounded-full border border-[rgb(var(--border))] px-2.5 py-0.5 text-xs text-[rgb(var(--muted))]">{tech}</span>
@@ -51,7 +52,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
     </section>
 
     <section class="mt-10">
-      <h2 class="text-lg font-medium">Características principales</h2>
+      <h2 class="text-lg font-medium">{text.detail.features}</h2>
       <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
         {project.features.map((feature) => (
           <li>{feature}</li>
@@ -61,7 +62,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
 
     {project.architecture && (
       <section class="mt-10">
-        <h2 class="text-lg font-medium">Arquitectura</h2>
+        <h2 class="text-lg font-medium">{text.detail.architecture}</h2>
         <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
           {project.architecture.map((item) => (
             <li>{item}</li>
@@ -72,7 +73,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
 
     {project.workflow && (
       <section class="mt-10">
-        <h2 class="text-lg font-medium">Flujo de trabajo</h2>
+        <h2 class="text-lg font-medium">{text.detail.workflow}</h2>
         <ol class="mt-3 list-decimal space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
           {project.workflow.map((item) => (
             <li>{item}</li>
@@ -83,9 +84,9 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
 
     {project.aiHeavy && project.aiUsage && (
       <section class="mt-10">
-        <h2 class="text-lg font-medium">Uso de IA en el desarrollo</h2>
+        <h2 class="text-lg font-medium">{text.detail.aiUsage}</h2>
         <p class="mt-2 max-w-3xl text-sm text-[rgb(var(--muted))]">
-          Este proyecto fue generado y estructurado con un uso intensivo de IA para acelerar el diseño, la integración y la iteración.
+          {text.detail.aiIntro}
         </p>
         <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
           {project.aiUsage.map((item) => (
@@ -97,7 +98,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
 
     {project.highlights && (
       <section class="mt-10">
-        <h2 class="text-lg font-medium">Aspectos destacados</h2>
+        <h2 class="text-lg font-medium">{text.detail.highlights}</h2>
         <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
           {project.highlights.map((item) => (
             <li>{item}</li>
@@ -107,7 +108,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
     )}
 
     <section class="mt-10">
-      <h2 class="text-lg font-medium">Lo que aprendí</h2>
+      <h2 class="text-lg font-medium">{text.detail.learned}</h2>
       <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
         {project.learned.map((item) => (
           <li>{item}</li>
@@ -117,7 +118,7 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
 
     {project.codeNotes && (
       <section class="mt-10">
-        <h2 class="text-lg font-medium">Notas técnicas / implementación</h2>
+        <h2 class="text-lg font-medium">{text.detail.codeNotes}</h2>
         <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[rgb(var(--fg))]">
           {project.codeNotes.map((item) => (
             <li>{item}</li>
@@ -128,9 +129,9 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
 
     {project.codeSnippets && project.codeSnippets.length > 0 && (
       <section class="mt-10">
-        <h2 class="text-lg font-medium">Ejemplos de código</h2>
+        <h2 class="text-lg font-medium">{text.detail.snippets}</h2>
         <p class="mt-2 max-w-3xl text-sm text-[rgb(var(--muted))]">
-          Snippets ilustrativos que reflejan la lógica y estructura implementada en el proyecto.
+          {text.detail.snippetsIntro}
         </p>
         <div class="mt-6 flex flex-col gap-6">
           {project.codeSnippets.map((snippet) => (

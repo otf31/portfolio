@@ -1,38 +1,31 @@
-// Scroll-triggered animation utility
+// Reveal content as it actually enters the viewport, once per element.
+let revealObserver;
+
 export function initScrollAnimations() {
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-  if (prefersReducedMotion) {
-    // If reduced motion is preferred, make all elements visible immediately
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  revealObserver?.disconnect();
+  const elements = [...document.querySelectorAll('.reveal:not(.visible)')];
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach((element) => element.classList.add('visible'));
     return;
   }
 
-  const observer = new IntersectionObserver(
+  revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          // Optional: unobserve after animation to save resources
-          // observer.unobserve(entry.target);
+          revealObserver?.unobserve(entry.target);
         }
       });
     },
     {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.14,
+      rootMargin: '0px 0px -8% 0px',
     }
   );
 
-  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  elements.forEach((element, index) => {
+    element.style.setProperty('--reveal-delay', `${Math.min(index % 4, 3) * 70}ms`);
+    revealObserver.observe(element);
+  });
 }
-
-// Initialize on DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initScrollAnimations);
-} else {
-  initScrollAnimations();
-}
-
-// Re-initialize on Astro page transitions (if using View Transitions)
-document.addEventListener('astro:page-load', initScrollAnimations);

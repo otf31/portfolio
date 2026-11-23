@@ -9,6 +9,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://otf31.github.io',
   base: '/portfolio',
+  i18n: {
+    locales: ['es', 'en'],
+    defaultLocale: 'es',
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [
     expressiveCode({
       themes: ['github-light', 'github-dark'],

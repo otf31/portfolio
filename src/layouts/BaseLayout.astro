@@ -1,34 +1,47 @@
 ---
 import "../styles/global.css";
+import { ui, type Locale } from "../i18n/content";
 import scrollAnimations from "../scripts/scroll-animations.js";
 
 interface Props {
   title?: string;
   description?: string;
+  lang?: Locale;
+  localeSwitchHref?: string;
 }
 
 const {
-  title = "Denis Omar Cuyo Ttito — Portfolio",
-  description = "Portfolio de proyectos y experiencia de Denis Omar Cuyo Ttito. Desarrollador enfocado en automatización, herramientas TUI/desktop y desarrollo full-stack."
+  title,
+  description,
+  lang = 'es',
+  localeSwitchHref,
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL;
+const text = ui[lang];
+const home = lang === 'en' ? `${base}/en/` : `${base}/`;
+const switchHref = localeSwitchHref ?? (lang === 'en' ? `${base}/` : `${base}/en/`);
+const pageTitle = title ?? (lang === 'en' ? 'Denis Omar — Portfolio' : 'Denis Omar — Portafolio');
+const pageDescription = description ?? (lang === 'en' ? 'Portfolio of projects and experience by Denis Omar, focused on automation, desktop tools, and full-stack development.' : 'Portafolio de proyectos y experiencia de Denis Omar. Desarrollador enfocado en automatización, herramientas TUI/desktop y desarrollo full-stack.');
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-pt-24">
+<html lang={lang} class="scroll-pt-24">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <meta name="twitter:card" content="summary" />
+    <link rel="alternate" hreflang="es" href={lang === 'es' ? Astro.url.href : switchHref} />
+    <link rel="alternate" hreflang="en" href={lang === 'en' ? Astro.url.href : switchHref} />
+    <link rel="alternate" hreflang="x-default" href={lang === 'es' ? Astro.url.href : switchHref} />
     <script is:inline>
       const theme = (() => {
         if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
@@ -48,45 +61,110 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.s
     </script>
   </head>
   <body class="min-h-screen font-sans antialiased">
-    <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-[rgb(var(--bg)/0.8)] bg-[rgb(var(--bg))] border-b border-[rgb(var(--border))]">
-      <nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-2 sm:px-6 sm:py-3">
-        <a href={`${base}/#inicio`} class="text-sm font-medium whitespace-nowrap">Denis Omar Cuyo Ttito</a>
-        <div class="flex flex-wrap items-center gap-2 text-xs sm:gap-4 sm:text-sm">
-          <a href={`${base}/#proyectos`} class="hover:opacity-80">Proyectos</a>
-          <a href={`${base}/#experiencia`} class="hover:opacity-80">Experiencia</a>
-          <a href={`${base}/#habilidades`} class="hover:opacity-80">Habilidades</a>
-          <a href={`${base}/#contacto`} class="hover:opacity-80">Contacto</a>
-          <button id="theme-toggle" class="rounded-md border border-[rgb(var(--border))] px-2 py-1 text-xs hover:opacity-80" aria-label="Cambiar tema">
-            <span class="dark:hidden">Oscuro</span>
-            <span class="hidden dark:inline">Claro</span>
+    <div class="site-shell min-h-screen">
+    <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+    <canvas class="particle-canvas" id="particle-canvas" aria-hidden="true"></canvas>
+    <div class="top-progress" id="top-progress" aria-hidden="true"></div>
+    <div class="ambient-orb ambient-orb--one" aria-hidden="true"></div>
+    <div class="ambient-orb ambient-orb--two" aria-hidden="true"></div>
+    <header class="site-header sticky top-0 z-50">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3 sm:px-8" aria-label={lang === 'en' ? 'Main navigation' : 'Navegación principal'}>
+        <a href={`${home}#${lang === 'en' ? 'home' : 'inicio'}`} class="flex items-center gap-2.5 text-sm font-semibold tracking-tight" aria-label={lang === 'en' ? 'Denis Omar, home' : 'Denis Omar, inicio'}>
+          <span class="brand-mark">DO</span><span class="hidden sm:inline">Denis Omar</span>
+        </a>
+        <div class="flex items-center gap-4 sm:gap-7 text-xs sm:text-sm">
+          <a href={`${home}#${lang === 'en' ? 'projects' : 'proyectos'}`} class="nav-link">{text.nav.projects}</a>
+          <a href={`${home}#${lang === 'en' ? 'experience' : 'experiencia'}`} class="nav-link hidden sm:inline">{text.nav.experience}</a>
+          <a href={`${home}#${lang === 'en' ? 'skills' : 'habilidades'}`} class="nav-link hidden sm:inline">{text.nav.skills}</a>
+          <a href={`${home}#${lang === 'en' ? 'contact' : 'contacto'}`} class="nav-link">{text.nav.contact}</a>
+          <a href={switchHref} class="locale-switch" lang={lang === 'en' ? 'es' : 'en'} aria-label={lang === 'en' ? 'Cambiar a español' : 'Switch to English'}>{text.nav.language}</a>
+          <button id="theme-toggle" class="grid h-9 w-9 place-items-center rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--surface))] transition hover:border-[rgb(var(--accent))]" aria-label={text.nav.theme} title={text.nav.theme}>
+            <svg class="dark:hidden" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+            <svg class="hidden dark:block" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>
           </button>
         </div>
       </nav>
     </header>
-    <main class="mx-auto max-w-5xl px-4 sm:px-6">
+    <main class="mx-auto max-w-6xl px-5 sm:px-8">
       <slot />
     </main>
-    <footer class="mt-16 border-t border-[rgb(var(--border))]">
-      <div class="mx-auto max-w-5xl px-4 py-6 text-sm text-[rgb(var(--muted))] sm:px-6">
-        <p>© {new Date().getFullYear()} Denis Omar Cuyo Ttito</p>
+    <footer class="mt-24 border-t border-[rgb(var(--border))]">
+      <div class="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-7 text-xs text-[rgb(var(--muted))] sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <p>© {new Date().getFullYear()} Denis Omar</p>
+        <a href={`${home}#${lang === 'en' ? 'home' : 'inicio'}`} class="hover:text-[rgb(var(--fg))]">{text.footer} ↗</a>
       </div>
     </footer>
-    <script type="module">
+    <button class="back-top" id="back-top" aria-label={text.backTop} title={text.backTop}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 14 6-6 6 6M12 8v12"/></svg></button>
+    <div class="copy-toast" id="copy-toast" data-message={text.copied} role="status" aria-live="polite">{text.copied}</div>
+    <script>
       import { initScrollAnimations } from '../scripts/scroll-animations.js';
-      initScrollAnimations();
+      import { initParticleBackground } from '../scripts/particle-background.js';
+
+      const initPortfolio = () => {
+        if (document.documentElement.dataset.interactionsReady === 'true') return;
+        document.documentElement.dataset.interactionsReady = 'true';
+        const root = document.documentElement;
+        const btn = document.getElementById('theme-toggle');
+        btn?.addEventListener('click', () => {
+          const theme = root.classList.toggle('dark') ? 'dark' : 'light';
+          localStorage.setItem('theme', theme);
+        });
+        const progress = document.getElementById('top-progress');
+        const backTop = document.getElementById('back-top');
+        const updateScroll = () => {
+          const max = document.documentElement.scrollHeight - innerHeight;
+          if (progress) progress.style.width = `${max > 0 ? (scrollY / max) * 100 : 0}%`;
+          backTop?.classList.toggle('visible', scrollY > 650);
+        };
+        addEventListener('scroll', updateScroll, { passive: true }); updateScroll();
+        backTop?.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+        const sections = [...document.querySelectorAll('main section[id]')];
+        const links = [...document.querySelectorAll('.nav-link')];
+        if ('IntersectionObserver' in window) {
+          const navObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+            if (entry.isIntersecting) links.forEach(link => link.classList.toggle('is-active', link.hash === `#${entry.target.id}`));
+          }), { rootMargin: '-30% 0px -60% 0px' });
+          sections.forEach(section => navObserver.observe(section));
+        }
+        document.querySelectorAll('[data-copy-email]').forEach(button => button.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText('otf31x@outlook.com');
+            const toast = document.getElementById('copy-toast'); toast?.classList.add('show');
+            setTimeout(() => toast?.classList.remove('show'), 2200);
+          } catch { location.href = 'mailto:otf31x@outlook.com'; }
+        }));
+        document.querySelectorAll('a[href*="#"]').forEach(link => link.addEventListener('click', event => {
+          const url = new URL(link.href, location.href);
+          if (url.pathname !== location.pathname || !url.hash) return;
+          const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+          if (!target) return;
+          event.preventDefault();
+          history.pushState(null, '', url.hash);
+          target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+          target.classList.remove('section-arrive');
+          void target.offsetWidth;
+          target.classList.add('section-arrive');
+          setTimeout(() => target.classList.remove('section-arrive'), 1150);
+        }));
+        initScrollAnimations();
+        initParticleBackground(document.getElementById('particle-canvas'), document.getElementById('cursor-glow'));
+        const target = document.getElementById('hero-lottie');
+        if (target && !target.dataset.loaded) {
+          target.dataset.loaded = 'true';
+          const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+          import('lottie-web').then(({ default: lottie }) => {
+            const animation = lottie.loadAnimation({ container: target, renderer: 'svg', loop: true, autoplay: !reduced, path: target.dataset.animation });
+            if (reduced) animation.goToAndStop(0, true);
+          }).catch(() => { target.dataset.loaded = 'false'; });
+        }
+      };
+      document.addEventListener('astro:page-load', initPortfolio);
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initPortfolio, { once: true }); else initPortfolio();
     </script>
     <script is:inline>
-      const btn = document.getElementById('theme-toggle');
-      btn?.addEventListener('click', () => {
-        const el = document.documentElement;
-        if (el.classList.contains('dark')) {
-          el.classList.remove('dark');
-          localStorage.setItem('theme', 'light');
-        } else {
-          el.classList.add('dark');
-          localStorage.setItem('theme', 'dark');
-        }
-      });
+      // Keep the theme button usable when pages are restored from the back/forward cache.
+      window.addEventListener('pageshow', () => document.getElementById('theme-toggle')?.setAttribute('aria-label', 'Cambiar tema'));
     </script>
+    </div>
   </body>
 </html>

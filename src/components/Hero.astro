@@ -1,18 +1,43 @@
 ---
+import { ui, type Locale } from '../i18n/content';
+
+interface Props { lang?: Locale }
+
+const { lang = 'es' }: Props = Astro.props;
+const text = ui[lang];
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
 
-<section id="inicio" class="pt-12 sm:pt-16">
-  <div class="flex flex-col gap-4 reveal animate-fade-in-up">
-    <div class="reveal animate-fade-in-up delay-100">
-      <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Denis Omar Cuyo Ttito</h1>
-      <p class="mt-2 text-lg text-[rgb(var(--muted))]">Bachiller en Ingeniería Informática y de Sistemas</p>
-    </div>
-    <p class="max-w-2xl text-[rgb(var(--fg))] reveal animate-fade-in-up delay-200">
-      Desarrollador enfocado en automatización, herramientas TUI/desktop y desarrollo full-stack. Me gusta crear soluciones prácticas para optimizar procesos y mejorar la eficiencia.
-    </p>
-    <div class="flex flex-wrap items-center gap-3 text-sm reveal animate-fade-in-up delay-300">
-      <a href="https://github.com/otf31" class="rounded-md border border-[rgb(var(--border))] px-3 py-1.5 hover:opacity-80 hover:border-[rgb(var(--accent))] transition-all duration-300" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="mailto:otf31x@outlook.com" class="rounded-md border border-[rgb(var(--border))] px-3 py-1.5 hover:opacity-80 hover:border-[rgb(var(--accent))] transition-all duration-300">otf31x@outlook.com</a>
+<section id={lang === 'en' ? 'home' : 'inicio'} class="hero-grid min-h-[calc(88svh-4rem)] py-14 sm:py-20">
+  <div class="hero-copy">
+    <div class="reveal visible">
+      <span class="eyebrow">{text.hero.eyebrow}</span>
+      <h1 class="hero-title mt-7">{lang === 'en' ? 'I build things' : 'Construyo cosas'} <span class="accent-word">{lang === 'en' ? 'that work.' : 'útiles.'}</span></h1>
+      <p class="mt-6 max-w-xl text-base leading-7 text-[rgb(var(--muted))] sm:text-lg sm:leading-8">
+        {text.hero.intro} <span class="font-medium text-[rgb(var(--fg))]">Denis Omar</span>, {text.hero.degree}
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href={lang === 'en' ? '#projects' : '#proyectos'} class="button-primary">{text.hero.projects} <span aria-hidden="true">↘</span></a>
+        <button type="button" data-copy-email class="button-secondary">{text.hero.talk} <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[rgb(var(--muted))]">
+        <a href="https://github.com/otf31" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 hover:text-[rgb(var(--fg))]">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.56.1.76-.24.76-.54v-2.1c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.7 2.61 1.2 3.25.92.1-.72.39-1.2.71-1.48-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.11-1.44 3.04-1.14 3.04-1.14.61 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3.01 0 4.29-2.62 5.23-5.11 5.51.4.35.76 1.02.76 2.06v3.08c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z"/></svg>
+          github.com/otf31 <span aria-hidden="true" class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+        </a>
+        <span class="hidden h-3 w-px bg-[rgb(var(--border))] sm:block"></span>
+        <span class="inline-flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-lime-400 shadow-[0_0_9px_rgb(var(--lime)/.8)]"></span>{text.hero.available}</span>
+      </div>
     </div>
   </div>
+  <div class="hero-art reveal visible" aria-label={lang === 'en' ? 'Animated illustration of orbits and connected systems' : 'Ilustración animada de órbitas y sistemas conectados'}>
+    <div class="orbit-label orbit-label--one">Automatización</div>
+    <div class="orbit-label orbit-label--two">Full-stack</div>
+    <div id="hero-lottie" class="lottie-orbit" data-animation={`${base}animations/orbit.json`} aria-hidden="true"></div>
+  </div>
 </section>
+
+<div class="mb-8 flex items-center justify-between border-y border-[rgb(var(--border))] py-4 text-[.65rem] font-medium uppercase tracking-[.17em] text-[rgb(var(--muted))] sm:mb-12 sm:text-xs">
+  <span>{text.hero.specialties}</span>
+  <a href={lang === 'en' ? '#projects' : '#proyectos'} class="hidden items-center gap-2 hover:text-[rgb(var(--fg))] sm:flex">{text.hero.seeWork} <span>↓</span></a>
+</div>

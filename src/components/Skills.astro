@@ -1,16 +1,20 @@
 ---
-import { skillGroups } from "../data/skills";
+import { getSkillGroups, ui, type Locale } from '../i18n/content';
+interface Props { lang?: Locale }
+const { lang = 'es' }: Props = Astro.props;
+const text = ui[lang];
+const skillGroups = getSkillGroups(lang);
 ---
 
-<section id="habilidades" class="mt-16 reveal animate-fade-in-up">
-  <h2 class="text-xl font-semibold tracking-tight">Habilidades y conocimientos</h2>
+<section id={lang === 'en' ? 'skills' : 'habilidades'} class="mt-20 scroll-mt-28 sm:mt-28">
+  <div class="reveal mb-8"><span class="section-kicker">{text.skills.kicker}</span><h2 class="section-title">{text.skills.title}</h2></div>
   <div class="mt-6 grid gap-4 sm:grid-cols-2">
     {skillGroups.map((group, groupIndex) => (
-      <article class="rounded-lg border border-[rgb(var(--border))] p-4 card-hover reveal animate-fade-in-up" style={{ animationDelay: `${(groupIndex + 1) * 100}ms` }}>
-        <h3 class="text-sm font-medium gradient-text">{group.title}</h3>
+      <article class="surface-card card-hover reveal p-5 sm:p-6" style={{ transitionDelay: `${groupIndex * 70}ms` }}>
+        <h3 class="text-sm font-semibold tracking-tight">{group.title}</h3>
         <div class="mt-2 flex flex-wrap gap-2">
           {group.items.map((item, itemIndex) => (
-            <span class="rounded-full border border-[rgb(var(--border))] px-2 py-0.5 text-xs text-[rgb(var(--muted))] hover:border-[rgb(var(--accent))] hover:text-[rgb(var(--accent))] hover:bg-[rgb(var(--accent) / 0.05)] transition-all duration-300 reveal animate-scale-in" style={{ animationDelay: `${(groupIndex * 50) + (itemIndex * 30)}ms` }}>{item}</span>
+            <span class="tag">{item}</span>
           ))}
         </div>
       </article>
