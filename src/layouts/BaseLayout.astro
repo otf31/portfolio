@@ -28,6 +28,15 @@ const pageDescription = description ?? (lang === 'en' ? 'Portfolio of projects a
 <!doctype html>
 <html lang={lang} class="scroll-pt-24">
   <head>
+    <style is:inline set:html={`
+      @font-face {
+        font-family: "Shantell Sans";
+        src: url("${base}/fonts/ShantellSans.ttf") format("truetype");
+        font-style: normal;
+        font-weight: 300 800;
+        font-display: swap;
+      }
+    `}></style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
@@ -148,15 +157,6 @@ const pageDescription = description ?? (lang === 'en' ? 'Portfolio of projects a
         }));
         initScrollAnimations();
         initParticleBackground(document.getElementById('particle-canvas'), document.getElementById('cursor-glow'));
-        const target = document.getElementById('hero-lottie');
-        if (target && !target.dataset.loaded) {
-          target.dataset.loaded = 'true';
-          const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-          import('lottie-web').then(({ default: lottie }) => {
-            const animation = lottie.loadAnimation({ container: target, renderer: 'svg', loop: true, autoplay: !reduced, path: target.dataset.animation });
-            if (reduced) animation.goToAndStop(0, true);
-          }).catch(() => { target.dataset.loaded = 'false'; });
-        }
       };
       document.addEventListener('astro:page-load', initPortfolio);
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initPortfolio, { once: true }); else initPortfolio();

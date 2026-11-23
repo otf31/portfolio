@@ -5,7 +5,17 @@ interface Props { lang?: Locale }
 
 const { lang = 'es' }: Props = Astro.props;
 const text = ui[lang];
-const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const terminalRows = [
+  ['OS', 'Arch Linux'],
+  [lang === 'en' ? 'Focus' : 'Enfoque', lang === 'en' ? 'Automation and full-stack development' : 'Automatización y desarrollo full-stack'],
+  [lang === 'en' ? 'Location' : 'Ubicación', lang === 'en' ? 'Cusco, Peru' : 'Cusco, Perú'],
+];
+const terminalArt = String.raw`      /  \
+     /  . \
+    /  /\ \
+   /__/  \ \
+  /_.------._\
+`.trimEnd();
 ---
 
 <section id={lang === 'en' ? 'home' : 'inicio'} class="hero-grid min-h-[calc(88svh-4rem)] py-14 sm:py-20">
@@ -26,18 +36,57 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
           github.com/otf31 <span aria-hidden="true" class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
         </a>
         <span class="hidden h-3 w-px bg-[rgb(var(--border))] sm:block"></span>
-        <span class="inline-flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-lime-400 shadow-[0_0_9px_rgb(var(--lime)/.8)]"></span>{text.hero.available}</span>
+        <span class="inline-flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-[rgb(var(--accent))]"></span>{text.hero.available}</span>
       </div>
     </div>
   </div>
-  <div class="hero-art reveal visible" aria-label={lang === 'en' ? 'Animated illustration of orbits and connected systems' : 'Ilustración animada de órbitas y sistemas conectados'}>
-    <div class="orbit-label orbit-label--one">Automatización</div>
-    <div class="orbit-label orbit-label--two">Full-stack</div>
-    <div id="hero-lottie" class="lottie-orbit" data-animation={`${base}animations/orbit.json`} aria-hidden="true"></div>
-  </div>
+  <figure class="terminal">
+    <figcaption><code><span>denis@arch</span>:~$ fastfetch</code></figcaption>
+    <div class="terminal-body">
+      <pre aria-hidden="true">{terminalArt}</pre>
+      <dl>
+        {terminalRows.map(([label, value]) => (
+          <div><dt>{label}</dt><dd>{value}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </figure>
 </section>
 
 <div class="mb-8 flex items-center justify-between border-y border-[rgb(var(--border))] py-4 text-[.65rem] font-medium uppercase tracking-[.17em] text-[rgb(var(--muted))] sm:mb-12 sm:text-xs">
   <span>{text.hero.specialties}</span>
   <a href={lang === 'en' ? '#projects' : '#proyectos'} class="hidden items-center gap-2 hover:text-[rgb(var(--fg))] sm:flex">{text.hero.seeWork} <span>↓</span></a>
 </div>
+
+<style>
+  .terminal {
+    min-width: 0;
+    margin: 0;
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--border));
+    border-radius: .5rem;
+    box-shadow: 0 20px 45px -35px rgb(var(--accent) / .45);
+    font-family: var(--mono);
+    font-size: .84rem;
+    line-height: 1.6;
+  }
+  figcaption {
+    padding: .85rem 1.25rem;
+    border-bottom: 1px solid rgb(var(--border));
+  }
+  figcaption span, pre, dt { color: rgb(var(--accent)); }
+  .terminal-body {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.5rem 1.25rem;
+  }
+  pre { margin: 0; font: inherit; white-space: pre; }
+  dl { display: grid; gap: .55rem; margin: 0; }
+  dt { font-weight: 650; }
+  dd { margin: 0; }
+  @media (max-width: 380px) {
+    .terminal-body { grid-template-columns: 1fr; }
+  }
+</style>

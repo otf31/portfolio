@@ -39,7 +39,7 @@ export function initParticleBackground(canvas, cursorGlow) {
   const paint = (time = 0, staticFrame = false) => {
     context.clearRect(0, 0, width, height);
     const dark = document.documentElement.classList.contains('dark');
-    const rgb = dark ? '174, 169, 255' : '92, 91, 234';
+    const rgb = dark ? '96, 193, 243' : '0, 99, 151';
     const linkDistance = Math.min(165, width * 0.15);
     const pointerAge = Math.max(0, time - pointer.lastMove);
     const pointerStrength = !pointer.active ? 0 : pointer.inside ? 1 : Math.max(0, 1 - pointerAge / pointerFadeMs);
