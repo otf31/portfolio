@@ -27,6 +27,85 @@ export interface ProjectItem {
 
 export const projects: ProjectItem[] = [
   {
+    name: "FastRecharge",
+    slug: "fast-recharge",
+    summary: "Aplicación Android para recargas móviles y consultas de saldo mediante USSD.",
+    overview: "FastRecharge reúne las recargas, la consulta de saldo y la consulta de la última recarga. La versión nativa en Kotlin y Jetpack Compose toma como punto de partida una implementación en React Native con Expo. Android gestiona la comunicación con el operador y presenta su respuesta.",
+    stack: ["Kotlin", "Jetpack Compose", "Material 3", "React Native", "Expo", "Android Keystore"],
+    features: [
+      "Formulario validado con montos rápidos y confirmación antes de recargar.",
+      "Consulta de saldo y de la última recarga, con permiso de llamada solicitado al iniciar una operación.",
+      "Navegación adaptativa para teléfonos y pantallas amplias, con temas claro y oscuro.",
+      "Almacenamiento cifrado del código de operaciones con Android Keystore."
+    ],
+    learned: [
+      "Trasladar una interfaz de React Native a Jetpack Compose y adaptarla a distintos tamaños de pantalla.",
+      "Separar la interfaz de las operaciones telefónicas y gestionar permisos y recreaciones de la actividad.",
+      "Distinguir el envío de una solicitud USSD de la confirmación del operador."
+    ],
+    codeSnippets: [
+      {
+        title: "Confirmación de recarga en Compose",
+        language: "kotlin",
+        description: "Ejemplo ilustrativo de una interfaz que valida el monto y delega el envío después de confirmar.",
+        code: `@Composable
+fun RechargeAction(
+    amountInCents: Int?,
+    onConfirm: (Int) -> Unit,
+) {
+    var pendingAmount by remember { mutableStateOf<Int?>(null) }
+
+    Button(
+        enabled = amountInCents != null && amountInCents > 0,
+        onClick = { pendingAmount = amountInCents },
+    ) {
+        Text("Continue")
+    }
+
+    pendingAmount?.let { amount ->
+        AlertDialog(
+            onDismissRequest = { pendingAmount = null },
+            title = { Text("Confirm top-up") },
+            confirmButton = {
+                TextButton(onClick = {
+                    pendingAmount = null
+                    onConfirm(amount)
+                }) { Text("Confirm") }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingAmount = null }) {
+                    Text("Cancel")
+                }
+            },
+        )
+    }
+}`
+      },
+      {
+        title: "Distinguir el envío del resultado",
+        language: "kotlin",
+        description: "Modelo ilustrativo del estado local de una solicitud USSD. Android presenta la respuesta del operador por separado.",
+        code: `enum class LaunchStatus {
+    HANDED_OFF,
+    NO_PHONE_APP,
+    PERMISSION_DENIED,
+}
+
+fun launchMessage(status: LaunchStatus): String =
+    when (status) {
+        LaunchStatus.HANDED_OFF ->
+            "Request handed to Android. Check the carrier response."
+        LaunchStatus.NO_PHONE_APP ->
+            "No phone app is available."
+        LaunchStatus.PERMISSION_DENIED ->
+            "Call permission is required to send the request."
+    }`
+      }
+    ],
+    private: true,
+    note: "Proyecto privado"
+  },
+  {
     name: "autofbpost",
     slug: "autofbpost",
     summary: "Aplicación de escritorio con interfaz TUI para automatizar publicaciones en múltiples grupos de Facebook.",

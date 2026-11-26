@@ -30,6 +30,22 @@ export const ui = {
 } as const;
 
 const projectEnglish: Record<string, Partial<ProjectItem>> = {
+  'fast-recharge': {
+    summary: 'Android app for mobile top-ups and balance inquiries over USSD.',
+    overview: 'FastRecharge brings together mobile top-ups, balance checks, and last top-up inquiries. The native Kotlin and Jetpack Compose version builds on a React Native implementation with Expo. Android handles communication with the carrier and displays its response.',
+    features: [
+      'Validated form with preset amounts and confirmation before submitting a top-up.',
+      'Balance and last top-up inquiries, with call permission requested when an operation starts.',
+      'Adaptive navigation for phones and larger screens, with light and dark themes.',
+      'Encrypted storage for the operation PIN using Android Keystore.'
+    ],
+    learned: [
+      'Porting a React Native interface to Jetpack Compose and adapting it to different screen sizes.',
+      'Separating the UI from telephony operations and handling permissions and activity recreation.',
+      'Distinguishing a submitted USSD request from carrier confirmation.'
+    ],
+    note: 'Private project'
+  },
   autofbpost: {
     summary: 'Desktop application with a TUI for automating posts across multiple Facebook groups.',
     overview: 'autofbpost is an automation tool built to streamline publishing content to multiple Facebook groups. It combines a TUI with browser automation to reduce repetitive work, with a focus on usability and cross-platform packaging.',
@@ -68,6 +84,10 @@ const projectEnglish: Record<string, Partial<ProjectItem>> = {
 };
 
 const snippetEnglish: Record<string, { title: string; description?: string }[]> = {
+  'fast-recharge': [
+    { title: 'Top-up confirmation in Compose', description: 'An illustrative UI that validates the amount and delegates submission after confirmation.' },
+    { title: 'Distinguishing submission from the result', description: 'An illustrative model of the local USSD request status. Android displays the carrier response separately.' }
+  ],
   autofbpost: [
     { title: 'Textual app skeleton', description: 'Application structure for coordinating the publishing workflow.' },
     { title: 'Playwright automation (illustrative flow)', description: 'A pattern for navigation, waiting, and file uploads.' }
